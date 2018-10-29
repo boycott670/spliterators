@@ -2,7 +2,7 @@ package spliterators;
 
 import java.util.Objects;
 
-public class EnumeratePair<T> implements Comparable<EnumeratePair<?>>
+public final class EnumeratePair<T> implements Comparable<EnumeratePair<?>>
 {
     private final int index;
     private final T value;
