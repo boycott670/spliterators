@@ -1,16 +1,15 @@
 package spliterators;
 
+import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
 public class EnumerateSpliterator<T> implements Spliterator<EnumeratePair<T>> {
 
     private final Spliterator<T> source;
-    private int current;
 
     public EnumerateSpliterator(Spliterator<T> source) {
         this.source = source;
-        current = 0;
     }
 
     @Override
@@ -21,7 +20,7 @@ public class EnumerateSpliterator<T> implements Spliterator<EnumeratePair<T>> {
     @Override
     public Spliterator<EnumeratePair<T>> trySplit() {
         Spliterator<T> splitSource = source.trySplit();
-        return splitSource == null ? null : new EnumerateSpliterator<T>(splitSource);
+        return splitSource == null ? null : new EnumerateSpliterator<>(splitSource);
     }
 
     @Override
@@ -31,6 +30,11 @@ public class EnumerateSpliterator<T> implements Spliterator<EnumeratePair<T>> {
 
     @Override
     public int characteristics() {
-        return source.characteristics() | SORTED | NONNULL | DISTINCT;
+        return source.characteristics() | SORTED | NONNULL | DISTINCT | ORDERED;
+    }
+
+    @Override
+    public Comparator<? super EnumeratePair<T>> getComparator() {
+        return null;
     }
 }
